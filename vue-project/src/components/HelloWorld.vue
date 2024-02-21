@@ -35,6 +35,55 @@ async function increment() {
   await nextTick()
   // Now the DOM is updated
 }
+
+
+// ref 实现思路 
+const myRef = {
+    _value:0,
+    get value(){
+        track()
+        return this._value;
+    }
+    
+    set value(newValue){
+        this._value = newValue;
+        trigger()
+    }
+}
+
+// ref reactive 实现过程 
+  // 创建包含 value 属性的对象
+  function ref(initialValue) {
+  // 创建包含 value 属性的对象
+  const refObject = {
+    value: initialValue
+  };
+
+  const handlers = {
+    get(target, key, receiver) {
+      // 记录引用的依赖关系
+      track(refObject, 'value');
+      const result = Reflect.get(target, key, receiver);
+      return result;
+    },
+    set(target, key, value, receiver) {
+      const oldValue = target.value;
+      const result = Reflect.set(target, key, value, receiver);
+      // 触发更新，通知依赖引用值发生变化
+      if (oldValue !== value) {
+        trigger(refObject, 'value');
+      }
+      return result;
+    },
+    // 其他操作的处理函数...
+  };
+
+  // 返回包含 value 属性的对象的代理
+  return new Proxy(refObject, handlers);
+}
+
+  // 返回包含 value 属性的对象的代理
+  return new Proxy(refObject, handlers);
 </script>
 
 <template>
