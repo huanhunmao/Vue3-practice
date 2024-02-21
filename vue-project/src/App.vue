@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import Reactive from './components/Reactive.vue';
+// import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
@@ -8,7 +9,8 @@ import HelloWorld from './components/HelloWorld.vue'
     <img alt="Vue logo" class="logo" src="@/assets/logo.svg" width="125" height="125" />
 
     <div class="wrapper">
-      <HelloWorld msg="Hello Vue3!" />
+      <!-- <HelloWorld msg="Hello Vue3!" /> -->
+      <Reactive/>
 
       <nav>
         <RouterLink to="/">Home</RouterLink>
